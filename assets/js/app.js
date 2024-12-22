@@ -34,7 +34,7 @@ btnBuscar.addEventListener("click", async () => {
   const uf = await renderUf();
   const valorInput = Number(input.value);
 
-  const divChart = document.getElementById("myChart");
+  let divChart = document.getElementById("myChart");
 
   async function getDolar() {
     try {
@@ -58,6 +58,7 @@ btnBuscar.addEventListener("click", async () => {
     }
   }
   if (valorSelect === "dolar") {
+
     const resultado = valorInput / dolar;
 
     labelResult.innerHTML = `Resultado: $${Math.floor(
@@ -66,30 +67,34 @@ btnBuscar.addEventListener("click", async () => {
 
     const dolarG = await getDolar();
 
+    
     const tdDolar = dolarG.serie;
 
     const unDate = tdDolar.map((element) => {
       return element.fecha.split("T")[0];
     });
 
+    const unDateR = unDate.reverse();
+
     const unValor = tdDolar.map((element) => {
       return element.valor;
     });
+    const unValorR = unValor.reverse()
 
     const myChart = new Chart(divChart, {
       type: "line",
       data: {
-        labels: unDate.splice(0, 9),
+        labels: unDateR.splice(21, 31),
         datasets: [
           {
             label: "Valor",
-            data: unValor.splice(0, 9),
+            data: unValorR.splice(21, 31),
           },
         ],
       },
     });
+
   } else if (valorSelect == "uf") {
-    
     const resultado = valorInput / uf;
     labelResult.innerHTML = `Resultado: $${resultado.toFixed(
       4
@@ -102,22 +107,25 @@ btnBuscar.addEventListener("click", async () => {
     const unDate = tdUf.map((element) => {
       return element.fecha.split("T")[0];
     });
+    const unDateR = unDate.reverse()
 
     const unValor = tdUf.map((element) => {
       return element.valor;
     });
+    const unValorR = unValor.reverse()
     const myChart = new Chart(divChart, {
       type: "line",
       data: {
-        labels: unDate.splice(0, 9),
+        labels: unDateR.splice(21, 31),
         datasets: [
           {
             label: "Valor",
-            data: unValor.splice(0, 9),
+            data: unValorR.splice(21, 31),
           },
         ],
       },
     });
+
   } else {
     labelResult.innerHTML = `Seleccione la moneda`;
   }
