@@ -26,7 +26,7 @@ async function renderUf() {
   const valorUf = monedas.uf.valor;
   return valorUf;
 }
-
+let currentChart;
 const labelResult = document.getElementById("resultado");
 btnBuscar.addEventListener("click", async () => {
   const dolar = await renderDolar();
@@ -80,8 +80,11 @@ btnBuscar.addEventListener("click", async () => {
       return element.valor;
     });
     const unValorR = unValor.reverse()
+    if (currentChart) {
+      currentChart.destroy()
+    }
 
-    const myChart = new Chart(divChart, {
+    currentChart = new Chart(divChart, {
       type: "line",
       data: {
         labels: unDateR.splice(21, 31),
@@ -113,7 +116,10 @@ btnBuscar.addEventListener("click", async () => {
       return element.valor;
     });
     const unValorR = unValor.reverse()
-    const myChart = new Chart(divChart, {
+    if (currentChart) {
+      currentChart.destroy()
+    }
+     currentChart = new Chart(divChart, {
       type: "line",
       data: {
         labels: unDateR.splice(21, 31),
